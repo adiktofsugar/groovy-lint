@@ -3,7 +3,7 @@ project_root="$(cd $(dirname ${BASH_SOURCE[0]}); pwd)"
 source "$project_root/setup-env.sh"
 
 usage="
-groovy-lint [-h][-w][-c][-p <path>] <file>[,<file>...]
+groovy-lint [-h][-w][-c][-u][-p <path>] <file>[,<file>...]
  -h        help
  -w        watch
  -u        update
@@ -16,7 +16,7 @@ watch=false
 compile=
 extra_classpath=$(pwd)
 should_update=
-while getopts ":hwcp:" opt; do
+while getopts ":hwcp:u" opt; do
   case "$opt" in
     h) echo "$usage"; exit;;
     w) watch=true;;
