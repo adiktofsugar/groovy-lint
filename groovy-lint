@@ -27,11 +27,6 @@ while getopts ":hwcp:u" opt; do
 done
 shift $(( OPTIND - 1 ))
 
-if [[ $1 = "cat" ]]; then
-  echo cat
-  exit
-fi
-
 if [[ $should_update ]]; then
   $project_root/remote-install
   exit
