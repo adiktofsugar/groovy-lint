@@ -1,0 +1,3 @@
+#!/bin/bash -eu
+git clone https://github.com/adiktofsugar/groovy-lint.git ~/.groovy-lint
+~/.groovy-lint/install

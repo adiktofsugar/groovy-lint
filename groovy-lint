@@ -6,7 +6,6 @@ usage="
 groovy-lint [-h][-w][-c][-p <path>] <file>[,<file>...]
  -h        help
  -w        watch
- -c        compile
  -p <path> add path to classpath (defaults to cwd)
 
 Pass in the files you want and they will be linted.
