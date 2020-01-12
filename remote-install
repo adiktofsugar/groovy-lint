@@ -1,5 +1,5 @@
 #!/bin/bash -eu
 set -o pipefail
+rm -rf ~/.groovy-lint
 git clone https://github.com/adiktofsugar/groovy-lint.git ~/.groovy-lint
 ~/.groovy-lint/install
-rm -rf ~/.groovy-lint
