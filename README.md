@@ -5,7 +5,7 @@ This is for those of use who want to lint groovy files but either can't figure o
 
 Installation
 ---
-curl https://raw.githubusercontent.com/adiktofsugar/groovy-lint/master/compile | bash
+`curl https://raw.githubusercontent.com/adiktofsugar/groovy-lint/master/remote-install | bash`
 This assumes /usr/local/bin is in your PATH. So if it's not, add it, or invoke groovy-lint via `/usr/local/bin/groovy-lint`
 
 Usage:
