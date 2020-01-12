@@ -1,0 +1,13 @@
+#!/bin/bash -eu
+project_root="$(cd $(dirname ${BASH_SOURCE[0]}); pwd)"
+source "$project_root/setup-env.sh"
+groovy_bin="$(cd $groovy_home/../bin; pwd)"
+
+cd $classpath_lib
+$groovy_bin/groovyc \
+  -cp "$classpath" \
+  "CliConsoleReportWriter.groovy" \
+  "CliCodeNarc.groovy"
+
+jar cvf "CliConsoleReportWriter.jar" CliConsoleReportWriter*.class
+jar cvf "CliCodeNarc.jar" CliCodeNarc*.class
