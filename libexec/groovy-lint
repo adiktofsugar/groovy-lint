@@ -10,9 +10,9 @@ groovy-lint [-h][-w][-r <path>] <file>[,<file>...]
 
 Pass in the files you want and they will be linted.
 "
-watch=false
-rules_classpath=
-rules_filename=
+watch=
+rules_classpath=""
+rules_filename="rules.groovy"
 while getopts ":hwr:" opt; do
   case "$opt" in
     h) echo "$usage"; exit;;
@@ -35,11 +35,8 @@ if [[ "$rules_classpath" ]]; then
   classpath="$rules_classpath:$classpath"
 fi
 
-args="$@"
+args="-r \"$rules_filename\" $@"
 if [[ $watch ]]; then
   args="-w $args"
-fi
-if [[ $rules_filename ]]; then
-  args="-r \"$rules_filename\" $args"
 fi
 java -classpath "$classpath" CliCodeNarc $args
