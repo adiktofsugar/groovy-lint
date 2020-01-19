@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 project_root="$(cd $(dirname ${BASH_SOURCE[0]}); pwd)"
-source "$project_root/setup-env.sh"
+source "$project_root/libexec/setup-env.sh"
 groovy_bin="$(cd $groovy_home/../bin; pwd)"
 
 cd $classpath_lib

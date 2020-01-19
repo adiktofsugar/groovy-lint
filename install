@@ -1,7 +1,0 @@
-#!/bin/bash -eu
-project_root="$(cd $(dirname ${BASH_SOURCE[0]}); pwd)"
-$project_root/compile
-destination="/usr/local/bin/groovy-lint"
-rm -f $destination
-echo 'bash '$project_root'/groovy-lint "$@"' > "$destination"
-chmod +x "$destination"

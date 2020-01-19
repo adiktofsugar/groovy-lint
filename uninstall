@@ -1,3 +1,0 @@
-#!/bin/bash -eu
-destination="/usr/local/bin/groovy-lint"
-rm -f $destination

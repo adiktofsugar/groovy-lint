@@ -1,0 +1,10 @@
+#!/bin/bash -eu
+cwd="$(pwd)"
+mkdir -p "$cwd/bin"
+
+$cwd/compile
+
+echo '#!/bin/bash -eu
+'$cwd'/libexec/groovy-lint "$@"
+' > "$cwd/bin/groovy-lint"
+chmod +x "$cwd/bin/groovy-lint"

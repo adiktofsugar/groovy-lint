@@ -1,12 +1,11 @@
 #!/bin/bash -eu
-project_root="$(cd $(dirname ${BASH_SOURCE[0]}); pwd)"
-source "$project_root/setup-env.sh"
+project_root="$(cd $(dirname ${BASH_SOURCE[0]}); cd ..; pwd)"
+source "$project_root/libexec/setup-env.sh"
 
 usage="
 groovy-lint [-h][-w][-c][-u][-p <path>] <file>[,<file>...]
  -h        help
  -w        watch
- -u        update
  -p <path> add path to classpath (defaults to cwd)
 
 Pass in the files you want and they will be linted.
@@ -15,22 +14,15 @@ To set your own rules, make a 'rules.groovy' file at '<path>'
 watch=false
 compile=
 extra_classpath=$(pwd)
-should_update=
-while getopts ":hwcp:u" opt; do
+while getopts ":hwcp:" opt; do
   case "$opt" in
     h) echo "$usage"; exit;;
     w) watch=true;;
     c) compile=true;;
     p) extra_classpath="$OPTARG";;
-    u) should_update=true;;
   esac
 done
 shift $(( OPTIND - 1 ))
-
-if [[ $should_update ]]; then
-  $project_root/remote-install
-  exit
-fi
 
 if [[ $compile ]]; then
   $project_root/compile >/dev/null
