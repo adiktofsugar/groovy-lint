@@ -2,9 +2,21 @@
 cwd="$(pwd)"
 mkdir -p "$cwd/bin"
 
+prefix="$cwd"
+while getopts ":p" opt; do
+  case "$opt" in
+    p) prefix="$OPTARG";;
+  esac
+done
+
+if ! [[ "$prefix" ]]; then
+  echo "prefix is required"
+  exit 1
+fi
+
 $cwd/compile
 
 echo '#!/bin/bash -eu
-'$cwd'/libexec/groovy-lint "$@"
+'$prefix'/libexec/groovy-lint "$@"
 ' > "$cwd/bin/groovy-lint"
 chmod +x "$cwd/bin/groovy-lint"

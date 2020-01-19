@@ -12,27 +12,22 @@ Pass in the files you want and they will be linted.
 To set your own rules, make a 'rules.groovy' file at '<path>'
 "
 watch=false
-compile=
 extra_classpath=$(pwd)
 while getopts ":hwcp:" opt; do
   case "$opt" in
     h) echo "$usage"; exit;;
     w) watch=true;;
-    c) compile=true;;
     p) extra_classpath="$OPTARG";;
   esac
 done
 shift $(( OPTIND - 1 ))
 
-if [[ $compile ]]; then
-  $project_root/compile >/dev/null
-fi
 
 my_writer_jar="$project_root/lib/CliConsoleReportWriter.jar"
 my_runner_jar="$project_root/lib/CliCodeNarc.jar"
 
 # probably should do something different with the config...
-classpath+=":$my_runner_jar:$my_writer_jar:$project_root/config"
+classpath+=":$my_runner_jar:$my_writer_jar:$project_root/lib"
 classpath="$extra_classpath:$classpath"
 
 java -classpath "$classpath" CliCodeNarc $watch "$@"
