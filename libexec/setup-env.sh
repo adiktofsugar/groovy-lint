@@ -42,8 +42,9 @@ cn_jar="$classpath_lib/CodeNarc-1.2.jar"
 slf_api_jar="$classpath_lib/slf4j-api-1.7.25.jar"
 slf_simple_jar="$classpath_lib/slf4j-simple-1.7.25.jar"
 jansi_jar="$classpath_lib/jansi-1.17.1.jar"
+cli_jar="$classpath_lib/commons-cli-1.4.jar"
 groovy_jars="${groovy_jars##:}" # remove the : from the front
 
 # minimum for compile
-classpath="$cn_jar:$slf_api_jar:$slf_simple_jar:$jansi_jar:$groovy_jars"
+classpath="$cn_jar:$slf_api_jar:$slf_simple_jar:$jansi_jar:$cli_jar:$groovy_jars"
 

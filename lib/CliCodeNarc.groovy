@@ -14,21 +14,28 @@ import java.nio.file.Files
 import org.fusesource.jansi.AnsiConsole;
 import static org.fusesource.jansi.Ansi.*;
 import static org.fusesource.jansi.Ansi.Color.*;
+import groovy.util.CliBuilder;
 
 @SuppressWarnings(['Println', 'PrintStackTrace'])
 class CliCodeNarc {
 
-  private Boolean shouldWatch
+  private final Boolean shouldWatch
+  private final String rulesFileName
   private RuleSet ruleSet
   private String[] filepaths
   private Map<WatchKey,String> keyToParentPath
 
   static void main(String[] args) {
-    Boolean shouldWatch = (args.first() =~ /true$/)
-    def codeNarc = new CliCodeNarc(shouldWatch)
+    def cli = new CliBuilder()
+    cli.w('watch')
+    cli.r(args:1, 'rules file name')
+    
+    def options = cli.parse(args)
+    def codeNarc = new CliCodeNarc(options.w, options.r)
     try {
       AnsiConsole.systemInstall();
-      codeNarc.execute(args.drop(1))
+      String[] filepaths = options.arguments();
+      codeNarc.execute(filepaths)
       AnsiConsole.systemUninstall();
     }
     catch(Throwable t) {
@@ -38,11 +45,10 @@ class CliCodeNarc {
     }
   }
 
-  public CliCodeNarc(Boolean shouldWatch) {
+  public CliCodeNarc(Boolean shouldWatch, String rulesFileName) {
     this.shouldWatch = shouldWatch
+    this.rulesFileName = rulesFileName
   }
-
-  
 
   protected void execute(String[] filepathIndicators) {
     if (filepathIndicators.size() == 0) {
@@ -123,6 +129,6 @@ class CliCodeNarc {
     new RuleRegistryInitializer().initializeRuleRegistry()
     // This looks for any rules.groovy on the classpath, so you can use your own if it's called rules.groovy and
     //  on the classpath
-    ruleSet = RuleSetUtil.loadRuleSetFile('rules.groovy')
+    ruleSet = RuleSetUtil.loadRuleSetFile(rulesFileName)
   }
 }

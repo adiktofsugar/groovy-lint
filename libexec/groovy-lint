@@ -3,21 +3,24 @@ project_root="$(cd $(dirname ${BASH_SOURCE[0]}); cd ..; pwd)"
 source "$project_root/libexec/setup-env.sh"
 
 usage="
-groovy-lint [-h][-w][-c][-u][-p <path>] <file>[,<file>...]
- -h        help
- -w        watch
- -p <path> add path to classpath (defaults to cwd)
+groovy-lint [-h][-w][-r <path>] <file>[,<file>...]
+ -h         help
+ -w         watch
+ -r <path>  specifies rules.groovy file. Defaults to using all rules.
 
 Pass in the files you want and they will be linted.
-To set your own rules, make a 'rules.groovy' file at '<path>'
 "
 watch=false
-extra_classpath=$(pwd)
-while getopts ":hwcp:" opt; do
+rules_classpath=
+rules_filename=
+while getopts ":hwr:" opt; do
   case "$opt" in
     h) echo "$usage"; exit;;
     w) watch=true;;
-    p) extra_classpath="$OPTARG";;
+    r)
+      rules_classpath="$(dirname "$OPTARG")"
+      rules_filename="$(basename "$OPTARG")"
+    ;;
   esac
 done
 shift $(( OPTIND - 1 ))
@@ -28,6 +31,15 @@ my_runner_jar="$project_root/lib/CliCodeNarc.jar"
 
 # probably should do something different with the config...
 classpath+=":$my_runner_jar:$my_writer_jar:$project_root/lib"
-classpath="$extra_classpath:$classpath"
+if [[ "$rules_classpath" ]]; then
+  classpath="$rules_classpath:$classpath"
+fi
 
-java -classpath "$classpath" CliCodeNarc $watch "$@"
+args="$@"
+if [[ $watch ]]; then
+  args="-w $args"
+fi
+if [[ $rules_filename ]]; then
+  args="-r \"$rules_filename\" $args"
+fi
+java -classpath "$classpath" CliCodeNarc $args
